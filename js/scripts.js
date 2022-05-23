@@ -32,6 +32,12 @@ class Calculator {
       return;
     }
 
+    if (this.currentOperationText.innerText !== "" && this.previousOperationText.innerText !=="") {
+      console.log("change operation 2")
+      this.changeOperation2(operation);
+      return;
+    }
+
     // Get current and previous values
     let operationValue;
     let previous = +this.previousOperationText.innerText.split(" ")[0];
@@ -103,6 +109,52 @@ class Calculator {
     this.previousOperationText.innerText =
       this.previousOperationText.innerText.slice(0, -1) + operation;
   }
+  
+  // Change math operation==================================================
+  changeOperation2(operation) {
+    
+    let anterior = this.previousOperationText.innerText.split(" ")[1];
+    let operationValue;
+    let previous = +this.previousOperationText.innerText.split(" ")[0];
+    let current = +this.currentOperationText.innerText;
+
+    switch (anterior) {
+      case "+":
+        operationValue = previous + current;
+        this.updateScreen(operationValue, operation, current, previous);
+        break;
+      case "-":
+        operationValue = previous - current;
+        this.updateScreen(operationValue, operation, current, previous);
+        break;
+      case "*":
+        operationValue = previous * current;
+        this.updateScreen(operationValue, operation, current, previous);
+        break;
+      case "/":
+        operationValue = previous / current;
+        this.updateScreen(operationValue, operation, current, previous);
+        break;
+      case "DEL":
+        this.processDelOperator();
+        break;
+      case "CE":
+        this.processClearCurrentOperator();
+        break;
+      case "C":
+        this.processClearOperator();
+        break;
+      case "=":
+        this.processEqualOperator();
+        break;
+      default:
+        return;
+    }
+    
+
+
+
+  }
 
   // Delete a digit
   processDelOperator() {
@@ -133,7 +185,7 @@ const calc = new Calculator(previousOperationText, currentOperationText);
 
 buttons.forEach((btn) => {
   btn.addEventListener("click", (e) => {
-    const value = e.target.innerText;
+    const value = e.target.innerText; 
 
     if (+value >= 0 || value === ".") {
       console.log(value);
